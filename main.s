@@ -28,9 +28,16 @@ enterGame:
 			ldr		r6, =brickArray
 			@ load and store bricks
 
-startGame:
-			@ draw game
+drawEnvir:
+			@ draw game environment
 			@ bl 	draw 2D components
+
+      @bl     drawBackground            @ after load and store components, draw Background
+
+      @ldr    r0, =brickArray           @ loads bricks
+         
+
+
 
 startGameState:
 			bl 		buttonState						     @ checks button state (what button was pushed)
@@ -56,6 +63,9 @@ startGameState:
 			@ update ball							       @ update ball coordinates
 			@ set states 							       @ set updates
 			@ bleq
+
+      cmp   r0, #5                     @ checks if user pressed start to close menu
+      bleq  drawEnvir                  @ draws game environment
 
 endGame: 	@draw black screen to indicate quit game
 
