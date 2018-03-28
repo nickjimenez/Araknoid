@@ -14,13 +14,13 @@ start:
 enterGame:
 			@ initial positions
 			ldr 	r4, =paddlePosition				 @ initial paddle ordinates
-			mov 	r0, 							         @ start x coordinate of paddle
-			str		r0, [r4]						       @ update paddel x coordinates
+			mov 	r0, #imm							     @ start x coordinate of paddle (imm = immediate)
+			str		r0, [r4]						       @ update paddle x coordinates
 			mov 	r1, 						           @ start y coordinate of paddle
 			str		r1, [r4, #4]					     @ update paddle y coordinates
 
 			ldr 	r5, =ballPosition
-			mov 	r0, 							         @ start x coordinate for ball
+			mov 	r0, #imm							     @ start x coordinate for ball
 			str 	r0, [r5]						       @ update ball x coordinates
 			mov 	r1,								         @ start y coordinates for ball
 			str 	r1, [r5, #4]					     @ update ball y coordinates
@@ -57,10 +57,6 @@ startGameState:
 			@ set states 							       @ set updates
 			@ bleq
 
-
-
-
-
 endGame: 	@draw black screen to indicate quit game
 
 @ quit program
@@ -71,4 +67,7 @@ paddlePosition:
 			.int 	0, 0
 
 ballPosition:
-			.int	0,0
+			.int	0, 0
+brickArray:
+      @ CHANGE! will not work but idk what to write yet lolz
+      .int  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
