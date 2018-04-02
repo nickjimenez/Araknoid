@@ -13,7 +13,7 @@ makeBackground:
 	
 	mov   r4, #200
 	mov   r5, #200
-	ldr   r6, =backgroundTile
+	ldr   r6, =backgroundTileImg
 	
 topBackground:
 	
@@ -43,7 +43,7 @@ makeCeiling:
 	
 	mov   r4, #200
 	mov   r5, #200
-	ldr   r6, =ceilingTile
+	ldr   r6, =ceilingTileImg
 	
 topCeiling:
 	
@@ -68,7 +68,7 @@ makeLeftWall:
 	
 	mov   r4, #200
 	mov   r5, #232
-	ldr   r6, =leftWallTile
+	ldr   r6, =leftWallTileImg
 	
 topLeftWall:
 	
@@ -95,7 +95,7 @@ makeRightWall:
 	
 	mov   r4, #872
 	mov   r5, #232
-	ldr   r6, =rightWallTile
+	ldr   r6, =rightWallTileImg
 	
 topRightWall:
 	
@@ -121,7 +121,7 @@ makeBall:
 	
 	mov   r4, #232
 	mov   r5, #456
-	ldr   r6, =brick3
+	ldr   r6, =brick3Img
 	
 topBall:
 	cmp   r5, r7
@@ -151,7 +151,7 @@ makeTypeOneBrick:
 	
 	mov   r4, #232
 	mov   r5, #392
-	ldr   r6, =brick1
+	ldr   r6, =brick1Img
 	
 topTOB:
 	cmp   r5, r7
@@ -179,7 +179,7 @@ makeTypeTwoBrick:
 	
 	mov  r4, #232
 	mov  r5, #424
-	ldr  r6, =brick2
+	ldr  r6, =brick2Img
 	
 topTTwB:
 	cmp  r5, r7
@@ -207,7 +207,7 @@ makeTypeThreeBrick:
 	
 	mov   r4, #232
 	mov   r5, #456
-	ldr   r6, =brick3
+	ldr   r6, =brick3Img
 	
 topTThB:
 	cmp   r5, r7

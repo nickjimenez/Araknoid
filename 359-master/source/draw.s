@@ -3,6 +3,7 @@
 .global DrawTile
 .global DrawPaddle
 .global Drawimage
+.global drawMainMenu
 
 .global draw
 draw:
@@ -61,7 +62,7 @@ done:
 
 	mov r0, #520
 	mov r1, #750
-	ldr r2, =paddle 
+	ldr r2, =paddleImg 
 
 	bl  DrawPaddle
 
@@ -104,7 +105,7 @@ topGrid:									@
 	bne   else			
 
 printBackground:							
-	ldr   r10, =backgroundTile				@	
+	ldr   r10, =backgroundTileImg				@	
 	
 	mov	  r0, r4							@ Pass x coordinate into DrawTile
 	mov	  r1, r5							@ Pass y coordinate into DrawTile
@@ -119,7 +120,7 @@ else:
 	bne   else1	
 												
 printCeiling:
-	ldr   r10, =ceilingTile					@
+	ldr   r10, =ceilingTileImg					@
 	
 	mov	  r0, r4							@ Pass x coordinate into DrawPixel
 	mov	  r1, r5							@ Pass y coordinate into DrawPixel
@@ -134,7 +135,7 @@ else1:
 	bne   else2	
 												
 printRightWall:
-	ldr   r10, =rightWallTile				@
+	ldr   r10, =rightWallTileImg				@
 	
 	mov	  r0, r4							@ Pass x coordinate into DrawPixel
 	mov	  r1, r5							@ Pass y coordinate into DrawPixel
@@ -149,7 +150,7 @@ else2:
 	bne   else3	
 												
 printLeftWall:
-	ldr   r10, =leftWallTile					@
+	ldr   r10, =leftWallTileImg					@
 	
 	mov	  r0, r4							@ Pass x coordinate into DrawPixel
 	mov	  r1, r5							@ Pass y coordinate into DrawPixel
@@ -165,7 +166,7 @@ else3:
 	bne   else4	
 												
 printBrickOne:
-	ldr   r10, =brick1				@
+	ldr   r10, =brick1Img				@
 	
 	mov	  r0, r4							@ Pass x coordinate into DrawPixel
 	mov	  r1, r5							@ Pass y coordinate into DrawPixel
@@ -180,7 +181,7 @@ else4:
 	bne   else5	
 												
 printBrickTwo:
-	ldr   r10, =brick2				@
+	ldr   r10, =brick2Img				@
 	
 	mov	  r0, r4							@ Pass x coordinate into DrawPixel
 	mov	  r1, r5							@ Pass y coordinate into DrawPixel
@@ -195,7 +196,7 @@ else5:
 	bne   done24
 												
 printBrickThree:
-	ldr   r10, =brick3				@
+	ldr   r10, =brick3Img				@
 	
 	mov	  r0, r4							@ Pass x coordinate into DrawPixel
 	mov	  r1, r5							@ Pass y coordinate into DrawPixel
@@ -208,7 +209,8 @@ done24:
 	
 	pop   {r4-r10, pc}						@
 	bx     lr	 							@
-
+	
+.global drawCursor
 drawCursor:  @ drawMainMenu @ pass length and width of image and load image
 	push {r4- r10, lr}						@
 	
@@ -219,8 +221,8 @@ drawCursor:  @ drawMainMenu @ pass length and width of image and load image
 	mov   r6, r2							@ Image address
 	
 	@ not sure what to initialize x and y (for cursor)
-	add   r7, r4, #904						@ Initialize the x
-	add   r8, r5, #936						@ Initialize the y
+	add   r7, r4, #64						@ Initialize the x
+	add   r8, r5, #64						@ Initialize the y
 
 	mov   r9, #0							@ Pixel counter
 	mov	  r10, r4							@ r10 = r4, so we can reinitialize r4
@@ -248,7 +250,7 @@ cursorloop:
 	pop   {r4-r10, pc}						@
 	bx     lr	 							@
 
-DrawMainMenu:  @ drawMainMenu @ pass length and width of image and load image
+drawMainMenu:  @ drawMainMenu @ pass length and width of image and load image
 	push {r4- r10, lr}						@
 	
 	@ pass length and width of image and load image
@@ -257,9 +259,9 @@ DrawMainMenu:  @ drawMainMenu @ pass length and width of image and load image
 	mov   r5, r1							@ Y start coordinate
 	mov   r6, r2							@ Image address
 	
-	add   r7, r4, #904						@ Initialize the x
+	add   r7, r4, #704						@ Initialize the x
 	@ #32 > 904
-	add   r8, r5, #936						@ Initialize the y
+	add   r8, r5, #736						@ Initialize the y
 	@ #32 > 936
 
 	mov   r9, #0							@ Pixel counter
@@ -270,7 +272,7 @@ menuloop:
 	mov	  r1, r5							@ Pass y coordinate into DrawPixel
 	
 	ldr   r2, [r6, r9, lsl #2]				@ 
-	bl    DrawPixel						@ 
+	bl    DrawPixel							@ 
 	add   r9, #1							@
 	add   r4, #1							@
 	
@@ -327,6 +329,48 @@ loop1:
 	
 	pop   {r4-r10, pc}						@
 	bx     lr	 							@
+	
+.global drawEndGame
+drawEndGame:  @ drawMainMenu @ pass length and width of image and load image
+	push {r4- r10, lr}						@
+	
+	@ pass length and width of image and load image
+	
+	mov   r4, #200							@ X start coordinate
+	mov   r5, #100							@ Y start coordinate
+	ldr 	r6, =loseGameImg						@ Image address
+	
+	add   r7, r4, #704						@ Initialize the x
+	@ #32 > 904
+	add   r8, r5, #736						@ Initialize the y
+	@ #32 > 936
+
+	mov   r9, #0							@ Pixel counter
+	mov	  r10, r4							@ r10 = r4, so we can reinitialize r4
+	
+loopEndGame:
+	mov	  r0, r4							@ Pass x coordinate into DrawPixel
+	mov	  r1, r5							@ Pass y coordinate into DrawPixel
+	
+	ldr   r2, [r6, r9, lsl #2]				@ 
+	bl    DrawPixel						@ 
+	add   r9, #1							@
+	add   r4, #1							@
+	
+
+				 
+	cmp   r4, r7							@ Hard coded for easier alterations later on
+	blt   loopEndGame								@ 
+
+	mov    r4, r10							@ Hard coded for easier alterations later on
+	add    r5, #1							@
+			
+	cmp   r5, r8							@ Hard coded for easier alterations later on
+	blt   loopEndGame						@ 
+	
+	pop   {r4-r10, pc}						@
+	bx     lr	 							@
+	
 
 
 DrawPaddle:

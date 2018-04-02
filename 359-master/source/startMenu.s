@@ -26,7 +26,7 @@ cursorCheck:
 	mov		r0, #53
 	mov		r1, #426
 	
-	ldr		r2, =cursor
+	ldr		r2, =cursorImg
 	
 	//bl		DrawCursor
 	

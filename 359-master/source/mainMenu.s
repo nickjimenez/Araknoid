@@ -5,11 +5,13 @@ mainMenu:
 		mov fp, sp
 		push {r4- r10, lr}
 		
-		mov		r0,	#0x10000
-		bl		delayMicroseconds
-		mov		r0,	#0x10000
-		bl		delayMicroseconds
+		//mov		r0,	#0x10000
+		//bl		delayMicroseconds
+		//mov		r0,	#0x10000
+		//bl		delayMicroseconds
 		
+@------------------------------ Main Menu ------------------------------		
+drawMainUpdate:
 		mov 	r0, #200					@ pass mainMenu x coordinate
 		mov 	r1, #100					@ pass mainMenu y coordinate
 		ldr		r2, =mainMenuImg			@ load mainMenu Image
@@ -19,44 +21,50 @@ mainMenu:
 @------------------------------ Cursor ---------------------------------
 
 		mov 	r10, #1						@ cursor location 1 on start, 0 on quit
-		
+
+updateMainCursor:		
 		@ update x and y coordinates later
-		mov 	r0, #32						@ pass cursor x coordinate
-		mov 	r1, #32						@ pass cursor y coordinate					
+		mov 	r4, #290
+		mov 	r5, #520
+		mov 	r0, r4						@ pass cursor x coordinate
+		mov 	r1, r5						@ pass cursor y coordinate					
 		ldr 	r2, =cursorImg 				@ load cursor Image 
 
 		bl 		drawCursor					@ calls global draw cursor
+
+		@mov 	pc, lr						@ return
+		@ erase previous image!!! 
 		
-		@ erase previous image!!!
-		
-mainMenuUser:
+mainMenuUserInput:
 		bl 		buttonFind					@ CHANGE BUTTON CHOSE CLASS NAME !!!!!!!
+		
+		bl		drawMainUpdate				@ draw MainMenu over again to hide cursor
 		
 		cmp 	r0, #4						@ compares SNES input to move up
 		moveq	r10, #1						@ return 1 to move up
-		beq		updateCursor				@ update cursor on screen	
-		
+		mov 	r4, #290					@ pass cursor x coordinate
+		mov 	r5, #520					@ pass cursor y coordinate	 
+		bl		updateMainCursor			@ update cursor on screen	
+
 		cmp 	r0, #5 						@ compares SNES input to move down
-		moveq	r10, #0						@ return 0 to move down
-		beq		updateCursor				@ update cursor on screen
+		moveq	r10, #0						@ return 0 to move down		
+											@ return 1 to move up
+		mov 	r4, #290					@ pass cursor x coordinate
+		mov 	r5, #670					@ pass cursor y coordinate	 
+		beq		updateMainCursor 			@ update cursor on screen
 		
 		cmp 	r0, #8						@ compareSNES input to A
-		moveq	returnInput					@ returns to calling function
 		
-		b 		mainMenuUser				@ loops back to buttonChose 	
+		beq	returnInput						@ returns to calling function
+		
+		b 		mainMenuUserInput			@ loops back to buttonChose 	
 
 returnInput:	
 		mov 	r0, r10						@ loads up/down instruction to r0 to return to calling code
 		pop		{r4- r10, fp, pc}
 		mov 	pc, lr
 
-@------------------------------- Update Cursor -------------------------
-updateCursor:
-		mov		fp, sp
-		push 	{r4- r10, fp, lr}
-		
-		mov 	r10, # 	
-		
+
 		  
 		
 		
