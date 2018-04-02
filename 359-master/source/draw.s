@@ -4,6 +4,7 @@
 .global DrawPaddle
 .global Drawimage
 .global drawMainMenu
+@.global DrawEraseCursor
 
 .global draw
 draw:

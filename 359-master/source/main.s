@@ -6,12 +6,12 @@
 main: 
 		ldr r0, =frameBufferInfo		@ frame buffer info structure
 		bl	initFbInfo
-		//bl 	initGPIO
+		bl 	initGPIO
 		
 start: 
 		bl mainMenu						@ call mainMenu class
 		cmp r0, #0						@ 
-		bleq drawEndGame
+		@bleq drawEndGame
 		
 initializeVals:
 		
